@@ -5,11 +5,108 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
+        
+        <style>
+            table {
+                width: 300px;
+                height: 400px;
+                border: solid 1px #dcdcdca4;
+                border-right: solid 4px #dcdcdca4;
+                border-bottom: solid 4px #dcdcdca4;
+                border-radius: 10px;
+                text-align: center;
+                padding: 8px;
+                margin: 20px;
+            }
+
+            input {
+                width: 70px;
+                height: 70px;
+                font-size: x-large;
+                background-color: #dcdcdca4;
+                border: none;
+                border-radius: 20px;
+                outline: none;
+            }
+
+            .display {
+                width: 250px;
+                text-align: right;
+                background: #ffffff;
+                border-top: solid #dcdcdca4 5px;
+                border-bottom: solid #dcdcdca4 5px;
+                border-right: solid #b6b6b6 6px;
+                border-left: solid #b6b6b6 6px;
+                border-radius: 5px;
+            }
+
+            .operator {
+                background-color: #87cefa;
+            }
+
+            .equal {
+                background-color: #b6b6b6;
+            }
+
+            input:hover {
+                background: #747373b9;
+            }
+            .display:hover {
+                background: #ffffff;
+            }
+            .operator:hover {
+                background: #339cdd;
+            }
+
+            input:active {
+                background: #5a5a5a;
+            }
+            .operator:active {
+                background: #2c80b4;
+            }
+        </style>
     </head>
     <body>
         <h1>Welcome from Tauri!</h1>
+        <!--
         <input type="text" value="" id="text1" />
         <input type="button" value="ボタン" onclick="clickBtn1()" />
+        -->
+
+        <form name="calculator">
+            <table>
+                <tr>
+                    <td colspan="4">
+                        <input type="text" class="display" id="display" value="" disabled />
+                    </td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="7" /></td>
+                    <td><input type="button" value="8" /></td>
+                    <td><input type="button" value="9" /></td>
+                    <td><input type="button" value="/" class="operator" /></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="4" /></td>
+                    <td><input type="button" value="5" /></td>
+                    <td><input type="button" value="6" /></td>
+                    <td><input type="button" value="*" class="operator" /></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="1" /></td>
+                    <td><input type="button" value="2" /></td>
+                    <td><input type="button" value="3" /></td>
+                    <td><input type="button" value="-" class="operator" /></td>
+                </tr>
+                <tr>
+                    <td><input type="button" value="0" /></td>
+                    <td><input type="button" value="C" /></td>
+                    <td><input type="button" value="=" class="equal" /></td>
+                    <td><input type="button" value="+" class="operator" /></td>
+                </tr>
+            </table>
+        </form>
+
         <script>
             // access the pre-bundled global API functions
             const invoke = window.__TAURI__.invoke
@@ -17,9 +114,11 @@
             // now we can call our Command!
             // Right-click the application background and open the developer tools.
             // You will see "Hello, world!" printed in the console!
+            /*
             invoke('greet', { name: 'World' })
               // `invoke` returns a Promise
               .then((response) => console.log(response))
+            */
 
             function clickBtn1() {
                 const t1 = document.getElementById("text1").value;
