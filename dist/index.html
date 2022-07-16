@@ -77,7 +77,7 @@
             <table>
                 <tr>
                     <td colspan="4">
-                        <input type="text" class="display" id="display" value="" disabled />
+                        <input type="text" class="display" name="display" value="" disabled />
                     </td>
                 </tr>
                 <tr>
@@ -128,7 +128,13 @@
             }
 
             function get_calc(btn) {
-                console.log(btn.value);
+                if (btn.value == "C") {
+                    document.calculator.display.value = "";
+                } else if (btn.value == "=") {
+                } else if (btn.value == "+" || btn.value == "-" || btn.value == "*" || btn.value == "/") {
+                } else {
+                    const num = Number(btn.value);
+                }
             }
         </script>
     </body>
