@@ -78,6 +78,28 @@ impl CalcStateManager {
                 calc_state.y_number = 0;
                 calc_state.operator = String::from("");
             },
+            "*" => {
+                if let Some(result) = calc_state.x_number.checked_mul(calc_state.y_number) {
+                    if result > 9_999_999_999 {
+                        calc_state.x_number = 9_999_999_999;
+                    } else {
+                        calc_state.x_number = result
+                    }
+                } else {
+                    calc_state.x_number = 9_999_999_999;
+                }
+                calc_state.y_number = 0;
+                calc_state.operator = String::from("");
+            },
+            "/" => {
+                if calc_state.y_number == 0 {
+                    calc_state.x_number = 0;
+                } else {
+                    calc_state.x_number = calc_state.x_number / calc_state.y_number;
+                }
+                calc_state.y_number = 0;
+                calc_state.operator = String::from("");
+            },
             _ => (),
         }
     }
