@@ -77,7 +77,7 @@
             <table>
                 <tr>
                     <td colspan="4">
-                        <input type="text" class="display" name="display" value="" disabled />
+                        <input type="text" class="display" name="display" value="Calculator" disabled />
                     </td>
                 </tr>
                 <tr>
@@ -122,14 +122,16 @@
 
             function clickBtn1() {
                 const t1 = document.getElementById("text1").value;
-                invoke('greet', { name: t1 }).then(name => {
-                    document.getElementById("text1").value = ('greet', name);
+                invoke('greet', { name: t1 }).then(response => {
+                    document.getElementById("text1").value = response;
                 });
             }
 
             function get_calc(btn) {
                 if (btn.value == "C") {
-                    document.calculator.display.value = "";
+                    invoke('calc_clear').then(response => {
+                        document.calculator.display.value = response;
+                    });
                 } else if (btn.value == "=") {
                 } else if (btn.value == "+" || btn.value == "-" || btn.value == "*" || btn.value == "/") {
                 } else {
