@@ -37,7 +37,7 @@ impl CalcStateManager {
     pub fn enter_number(&self, n: i32) {
         let mut calc_state = self.state.lock().unwrap();
 
-        if &calc_state.operator == "" {
+        if &*(calc_state.operator) == "" {
             if calc_state.x_number < 1_000_000_000 {
                 calc_state.x_number = calc_state.x_number * 10 + n as i64;
             }
@@ -57,10 +57,28 @@ impl CalcStateManager {
     pub fn display_text(&self) -> String {
         let calc_state = self.state.lock().unwrap();
 
-        if &calc_state.operator == "" {
+        if &*(calc_state.operator) == "" {
             calc_state.x_number.to_string()
         } else {
             calc_state.y_number.to_string()
+        }
+    }
+
+    pub fn enter_equal(&self) {
+        let mut calc_state = self.state.lock().unwrap();
+
+        match &*(calc_state.operator) {
+            "+" => {
+                calc_state.x_number = calc_state.x_number + calc_state.y_number;
+                calc_state.y_number = 0;
+                calc_state.operator = String::from("");
+            },
+            "-" => {
+                calc_state.x_number = calc_state.x_number - calc_state.y_number;
+                calc_state.y_number = 0;
+                calc_state.operator = String::from("");
+            },
+            _ => (),
         }
     }
 }
@@ -72,6 +90,7 @@ fn main() {
         calc_clear,
         calc_enter_number,
         calc_enter_operator,
+        calc_enter_equal,
     ])
     .setup(|app| {
         let calc_state_manager = CalcStateManager::new();
@@ -103,4 +122,10 @@ fn calc_enter_number(calc_state_manager: State<'_, CalcStateManager>, n: i32) ->
 #[tauri::command]
 fn calc_enter_operator(calc_state_manager: State<'_, CalcStateManager>, s: &str) {
     calc_state_manager.enter_operator(s);
+}
+
+#[tauri::command]
+fn calc_enter_equal(calc_state_manager: State<'_, CalcStateManager>) -> String {
+    calc_state_manager.enter_equal();
+    calc_state_manager.display_text()
 }

@@ -120,19 +120,15 @@
               .then((response) => console.log(response))
             */
 
-            function clickBtn1() {
-                const t1 = document.getElementById("text1").value;
-                invoke('greet', { name: t1 }).then(response => {
-                    document.getElementById("text1").value = response;
-                });
-            }
-
             function get_calc(btn) {
                 if (btn.value == "C") {
                     invoke('calc_clear').then(response => {
                         document.calculator.display.value = response;
                     });
                 } else if (btn.value == "=") {
+                    invoke('calc_enter_equal').then(response => {
+                        document.calculator.display.value = response;
+                    });
                 } else if (btn.value == "+" || btn.value == "-" || btn.value == "*" || btn.value == "/") {
                     invoke('calc_enter_operator', { s: btn.value });
                 } else {
