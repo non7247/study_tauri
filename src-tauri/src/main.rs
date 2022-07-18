@@ -34,6 +34,26 @@ impl CalcStateManager {
         calc_state.operator = String::from("");
     }
 
+    pub fn enter_number(&self, n: i32) {
+        let mut calc_state = self.state.lock().unwrap();
+
+        if &calc_state.operator == "" {
+            if calc_state.x_number < 1_000_000_000 {
+                calc_state.x_number = calc_state.x_number * 10 + n as i64;
+            }
+        } else {
+            if calc_state.y_number < 1_000_000_000 {
+                calc_state.y_number = calc_state.y_number * 10 + n as i64;
+            }
+        }
+    }
+
+    pub fn enter_operator(&self, s: &str) {
+        let mut calc_state = self.state.lock().unwrap();
+
+        calc_state.operator = s.to_string();
+    }
+
     pub fn display_text(&self) -> String {
         let calc_state = self.state.lock().unwrap();
 
@@ -50,6 +70,8 @@ fn main() {
     .invoke_handler(tauri::generate_handler![
         greet,
         calc_clear,
+        calc_enter_number,
+        calc_enter_operator,
     ])
     .setup(|app| {
         let calc_state_manager = CalcStateManager::new();
@@ -70,4 +92,15 @@ fn greet(name: &str) -> String {
 fn calc_clear(calc_state_manager: State<'_, CalcStateManager>) -> String {
     calc_state_manager.clear();
     calc_state_manager.display_text()
+}
+
+#[tauri::command]
+fn calc_enter_number(calc_state_manager: State<'_, CalcStateManager>, n: i32) -> String {
+    calc_state_manager.enter_number(n);
+    calc_state_manager.display_text()
+}
+
+#[tauri::command]
+fn calc_enter_operator(calc_state_manager: State<'_, CalcStateManager>, s: &str) {
+    calc_state_manager.enter_operator(s);
 }

@@ -134,8 +134,12 @@
                     });
                 } else if (btn.value == "=") {
                 } else if (btn.value == "+" || btn.value == "-" || btn.value == "*" || btn.value == "/") {
+                    invoke('calc_enter_operator', { s: btn.value });
                 } else {
                     const num = Number(btn.value);
+                    invoke('calc_enter_number', { n: num }).then(response => {
+                        document.calculator.display.value = response;
+                    });
                 }
             }
         </script>
